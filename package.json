@@ -1,0 +1,21 @@
+{
+  "name": "splitngo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DenkuKuro/SplitnGO.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DenkuKuro/SplitnGO/issues"
+  },
+  "homepage": "https://github.com/DenkuKuro/SplitnGO#readme",
+  "description": ""
+}
