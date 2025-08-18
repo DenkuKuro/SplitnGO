@@ -11,7 +11,7 @@ export default function Index() {
         backgroundColor: "#00CEC8",
       }}
     >
-      <Text>Welcome to SplitNGo</Text>
+      <Text>Welcome to SplitNGo!</Text>
       <Link href="./scanner" asChild>
         <TouchableOpacity className="bg-blue-500 p-4 rounded-md w-40 mt-4" onPress={() => {}}>
           <Text className="text-white text-center">Start</Text>
