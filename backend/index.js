@@ -1,8 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import sharp from "sharp";
-import Tesseract from "tesseract.js";
 import { receiptExtractor } from "./gemini-extractor.js";
 
 dotenv.config();
@@ -15,12 +13,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 
-app.post("/api/v1/receipts", async (req, res) => {
+app.post("/api/upload", async (req, res) => {
     try {
-        const file = req.files?.file;
-        if (!file) return res.status(400).json({ error: "no_file" });
+        const photo = req.body.photo;
+        if (!photo) return res.status(400).json({ error: "no_photo" });
     
-        const result = await receiptExtractor(file);
+        const result = await receiptExtractor(photo.uri);
+        console.log(result);
         res.json(result);
       } catch (e) {
         console.error(e);

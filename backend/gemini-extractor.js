@@ -26,28 +26,28 @@ const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
 });
 
-const base64ImageFile = fs.readFileSync("./receipt.png", {
-    encoding: "base64",
-});
 
-const contents = [
-    {
-        inlineData: {
-            mimeType: "image/png",
-            data: base64ImageFile,
+
+export async function receiptExtractor(photo) {
+    const base64ImageFile = fs.readFileSync(photo, {
+        encoding: "base64",
+    });
+
+    const contents = [
+        {
+            inlineData: {
+                data: base64ImageFile,
+            }
+        },
+        {
+            text: receiptExtractorPrompt
         }
-    },
-    {
-        text: receiptExtractorPrompt
-    }
-]
-
-async function receiptExtractor() {
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: contents,
-  });
-  console.log(response.text);
+    ]
+    
+    const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: contents,
+    });
+    return response.text;
 }
 
-await receiptExtractor();
