@@ -39,13 +39,3 @@ yarn-error.*
 app-example
 .env
 
-# images
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.bmp
-*.tiff
-*.ico
-*.webp
-*.svg
