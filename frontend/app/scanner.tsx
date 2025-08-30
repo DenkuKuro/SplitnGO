@@ -3,6 +3,7 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { useRef, useEffect } from "react";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
+import { API_BASE_URL } from "@env";
 import { Image } from 'expo-image';
 
 export default function Scanner() {
@@ -43,6 +44,21 @@ export default function Scanner() {
     );
   }
 
+  const apiCall = async (photo: string) => {
+    const formData = new FormData();
+    formData.append('image', {
+      uri: photo,
+      type: 'image/jpeg',
+      name: 'photo.jpg',
+    } as any);
+    console.log(`${API_BASE_URL}/api/upload`);
+    const response = await fetch(`${API_BASE_URL}/api/upload`, {
+      method: "POST",
+      body: formData,
+    });
+    return response;
+  };
+
   const takePictureAndSend = async () => {
     try {
       // @ts-ignore (CameraView has takePictureAsync in SDK 50/51)
@@ -52,19 +68,13 @@ export default function Scanner() {
       });
       console.log("Photo taken", photo?.uri);
 
-      const response = await fetch("http://localhost:3000/api/upload", {
-        method: "POST",
-        body: JSON.stringify({ photo: photo?.uri }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await apiCall(photo?.uri || "");
 
       const data = await response.json();
 
       console.log("Data", data);
 
-      navigation.navigate("Result", { data });
+      // navigation.navigate("Result", { data });
 
       if (!photo?.uri) {
         Alert.alert("Capture failed");
@@ -89,6 +99,10 @@ export default function Scanner() {
         console.log("Image selected from gallery", result.assets[0].uri);
         // TODO: send to backend as multipart/form-data
         // await sendPicture(result.assets[0].uri);
+        const response = await apiCall(result.assets[0].uri);
+        const data = await response.json();
+        console.log("Data", data);
+        // navigation.navigate("item-list", { items: data });
       }
     } catch (e) {
       console.warn("pickImageFromGallery error", e);
