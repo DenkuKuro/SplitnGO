@@ -3,8 +3,10 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { useRef, useEffect } from "react";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
-import { API_BASE_URL } from "@env";
 import { Image } from 'expo-image';
+
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
+
 
 export default function Scanner() {
   const cameraRef = useRef<CameraView>(null);

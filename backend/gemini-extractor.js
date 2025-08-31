@@ -29,9 +29,20 @@ const ai = new GoogleGenAI({
 
 
 export async function receiptExtractor(photo) {
-    const base64ImageFile = fs.readFileSync(photo, {
-        encoding: "base64",
-    });
+    let base64ImageFile;
+    
+    // Handle different input types
+    if (typeof photo === 'string') {
+        // If it's a file path, read the file
+        base64ImageFile = fs.readFileSync(photo, {
+            encoding: "base64",
+        });
+    } else if (Buffer.isBuffer(photo)) {
+        // If it's a Buffer, convert to base64
+        base64ImageFile = photo.toString('base64');
+    } else {
+        throw new Error('Invalid photo input: expected string (file path) or Buffer');
+    }
 
     const contents = [
         {

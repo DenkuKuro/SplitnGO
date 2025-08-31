@@ -19,7 +19,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/upload", async (req, res) => {
-  console.log("Route hit");
   try {
       // Handle FormData from mobile app
       let imageUri;
@@ -27,7 +26,7 @@ app.post("/api/upload", async (req, res) => {
       if (req.files && req.files.image) {
           // FormData upload
           const imageFile = req.files.image;
-          imageUri = imageFile.tempFilePath || imageFile.data;
+          imageUri = imageFile.data; // Use the Buffer data directly
           console.log("Received FormData image:", imageFile.name);
       } else if (req.body.photo) {
           // JSON upload (fallback)
